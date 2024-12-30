@@ -4,7 +4,7 @@
 #include <string.h>
 #include <gconio.h>
 
-#define LINHAS 10
+#define LINHAS 12
 #define COLUNAS 6
 #define PASSOU 0
 #define BONUS -1
@@ -13,7 +13,7 @@
 
 int main(){
 	srand(time(NULL));
-	int quarteirao[LINHAS][COLUNAS], linha=0, coluna=0, muniçoes=MUNIÇOES;
+	int quarteirao[LINHAS][COLUNAS], linha=0, coluna=2, muniçoes=MUNIÇOES;
 	char wasd;
 	printf("Seu objetivo é chegar até o acampamento, mas antes você deve passar por vários quarteirões cheios de zumbis tendo um revolver e 50 munições, mas em um dos quarteirõs terá um bonus de 8 munições e nenhum zumbi.\n Boa sorte.\n");
 	printf("Pressione qualquer tecla para iniciar\n");
@@ -25,9 +25,10 @@ int main(){
 			quarteirao[i][j]=rand()%9+1;
 	
 	quarteirao[rand()%4+4][rand()%COLUNAS]=BONUS;
-	quarteirao[0][0]=PRESENTE;
+	quarteirao[0][2]=PRESENTE;
 	
 	do{
+		printf("munição restante: %d\n", muniçoes);
 		for (int i = 0; i < LINHAS; i++){
 			for (int j = 0; j < COLUNAS; j++){
 				if(quarteirao[i][j]==PASSOU)
@@ -99,7 +100,6 @@ int main(){
 		break;
 	}
 	
-	printf("munição restante: %d\n", muniçoes);
 	quarteirao[linha][coluna]=PRESENTE;
 	}while(1);
 	
