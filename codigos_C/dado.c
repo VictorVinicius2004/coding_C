@@ -33,6 +33,7 @@ int main(){
 		}
 	}
 	
+	printf("\n");
 	for (int i = 0; i < 6; i++){
 		printf("lado %d: %d vezes   | porcentagem: %.2f%%\n", i+1, lados[i], ((float)lados[i]/tentativas)*100);
 	}
