@@ -8,17 +8,11 @@
 #include <gconio.h>
 
 typedef struct{
-	char c;
-	const char *s;
-	int d;
-}Tipos;
-
-typedef struct{
 	int linha;
 	int coluna;
 }Posicao;
 
-int entre(char c,  const char *str){
+int entre_string(char c,  const char *str){
 	int p_util=strlen(str);
 	
 	for(int i=0; i<p_util; i++)
@@ -28,18 +22,12 @@ int entre(char c,  const char *str){
 	return 0;
 }
 
-int inputd(const char *str){
-	int x;
-	printf("%s", str);
-	scanf(" %d", &x);
-	return x;
-}
-
-char inputc(const char *str){
-	char x;
-	printf("%s", str);
-	scanf(" %c", &x);
-	return x;
+entre_vetor(int num, int indice, const int *vetor){
+	for(int i=0; i<indice; i++)
+		if(num==vetor[i])
+			return 1;
+	
+	return 0;
 }
 
 Posicao wasd(Posicao posicao){
@@ -55,4 +43,5 @@ Posicao wasd(Posicao posicao){
 	}
 	return posicao;
 }
+
 #endif

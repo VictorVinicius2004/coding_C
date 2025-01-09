@@ -31,7 +31,7 @@ int main(){
 		float num=0;
 		
 		for (int i = 0; i < p_util; i++)
-			if(entre(expressao[i], "+-/*")){
+			if(entre_string(expressao[i], "+-/*")){
 				operador=expressao[i];
 				expressao[i]='!';
 				break;

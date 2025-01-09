@@ -96,7 +96,7 @@ int main(){
 		muniçoes+=8;
 		
 	if(muniçoes<=0){
-		printf("Você não teve munição suficiente para chegar ao acampamento vivo");
+		printf("Você não teve munição suficiente para chegar ao acampamento vivo\n");
 		break;
 	}
 	
