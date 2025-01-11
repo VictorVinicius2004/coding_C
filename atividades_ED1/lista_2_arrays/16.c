@@ -59,35 +59,24 @@ int main(){
 	printf("\n");
 	
 	//mesclando
-	for(int j=0; j<30; j++){
-		int menor=100, m_array, pos;
+	int p1=0, p2=0, p3=0, num1, num2, num3, indice=0;
+	while(indice<30){
+		num1=(p1<10)?array1[p1]:101;
+		num2=(p2<10)?array2[p2]:101;
+		num3=(p3<10)?array3[p3]:101;
 		
-		for(int i=0; i<10; i++)
-			if(menor>array1[i]){
-				menor=array1[i];
-				m_array=1;
-				pos=i;
-			}
-		for(int i=0; i<10; i++)
-			if(menor>array2[i]){
-				menor=array2[i];
-				m_array=2;
-				pos=i;
-			}
-		for(int i=0; i<10; i++)
-			if(menor>array3[i]){
-				menor=array3[i];
-				m_array=3;
-				pos=i;
-			}
-			
-		switch(m_array){
-			case 1: array1[pos]=100; break;
-			case 2: array2[pos]=100; break;
-			case 3: array3[pos]=100; break;
+		if(num1<=num2 && num1<=num3){
+			resultado[indice++]=num1;
+			p1++;
 		}
-		
-		resultado[j]=menor;
+		if(num2<=num1 && num2<=num3){
+			resultado[indice++]=num2;
+			p2++;
+		}
+		if(num3<=num1 && num3<=num2){
+			resultado[indice++]=num3;
+			p3++;
+		}
 	}
 	
 	printf("Resultado:\n");
