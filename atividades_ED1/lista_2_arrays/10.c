@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <math.h>
 
 /*Métodos: map, filter e reduce são bastante comuns em linguagens de alto nível para tratamento de
 Arrays. Faça um programa que implemente o método...
@@ -13,48 +12,25 @@ int main(){
 	int n;
 	printf("Digite a quantidade de números a serem sorteados.\n");
 	scanf(" %d", &n);
-	int v1[n], num, expoente;
-	unsigned long int v2[n], bin;
+	int v1[n], v2[n];
 	
 	for (int i = 0; i < n; i++)
 		v1[i]=rand()%1024;
-	
-	for(int i=0; i<n; i++){
-		for(int j=10; j>=1; j--){
-			if(v1[i]<=pow(2, j)-1)
-				expoente=j;
-			else
-				break;
-		}
-		
-		int array[10]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-		num=v1[i];
-		do{
-			array[expoente-1]=num%2;
-			num/=2;
-			expoente--;
-		}while(num>0);
 
-		bin=array[0];
-		for(int j=1; j<10; j++){
-			if(array[j]!=-1){
-				switch(array[j]){
-					case 0:
-						bin*=10;
-						break;
-					case 1:
-						bin=bin*10+1;
-				}
-			}
-			else
-				break;
+	for(int i=0; i<n; i++){
+		int cont=9, array[10];
+		for(int j=v1[i]; j>=1; j/=2)
+			array[cont--]=j%2;
+		
+		for(int j=cont+1; j<10; j++){
+			if(j==cont+1)
+				v2[i]=1;
+			else v2[i]=(array[j]==1)? v2[i]*10+1 : v2[i]*10;
 		}
-		v2[i]=bin;
 	}
 	
 	printf("v1       v2\n");
 	for (int i = 0; i < n; i++)
-		printf("%d   %lu\n", v1[i], v2[i]);
+		printf("%d   %d\n", v1[i], v2[i]);
 	return 0;
 }
-
