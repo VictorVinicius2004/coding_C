@@ -22,8 +22,8 @@ int entre_string(char c,  const char *str){
 	return 0;
 }
 
-entre_vetor(int num, int indice, const int *vetor){
-	for(int i=0; i<indice; i++)
+entre_vetor(int num, int num_elementos, const int *vetor){
+	for(int i=0; i<num_elementos-1; i++)
 		if(num==vetor[i])
 			return 1;
 	
@@ -49,20 +49,13 @@ int sorteio(float porcentagem, int vezes){
 	int cento=100;
 	
 	if(vezes<=0)
-		return 0;
-		
-	if(porcentagem<100 && porcentagem>0){
-		while(porcentagem-(int)porcentagem){
+		return 0;	
+	else if(porcentagem<100 && porcentagem>0){
+		//transforma uma porcentagem float em exclusivamente inteira
+		while(porcentagem-(int)porcentagem!=0){
 			porcentagem*=10;
 			cento*=10;
 		}
-		
-		for(int i=cento; i>0; i--)
-			if(cento%i==0 && (int)porcentagem%i==0){
-				cento/=i;
-				porcentagem/=i;
-				
-			}
 
 		for(int i=0; i<vezes; i++){
 			int num=rand()%cento+1;
