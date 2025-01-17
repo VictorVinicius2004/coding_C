@@ -29,14 +29,14 @@ int main(){
 					break;
 			}
 			
-			printf("Tentativa %d \nAdivinhe: ", ++contusr);
+			printf("Tentativa %d \nDigite: ", ++contusr);
 			scanf(" %d", &escolhausr);
 			system("clear");
 		}while(1);
 		while(getchar()!='\n');
 		
 		printf("Vez do computador, pense em um número entre 0 e 99\n");
-		printf("Caso o computador escolha um número menor digite '>', se for um número maior digite '<', e se acertar digite '='\n");
+		printf("Caso o computador escolha um número menor digite '>', se for um número maior digite '<', se acertar digite '=', se quiser resetar digite '#'\n");
 		printf("Pressione Enter para continuar.\n");
 		getchar();
 		system("clear");
@@ -57,25 +57,33 @@ int main(){
 					case '=':
 						acertou=1;
 						break;
+					case '#':
+						max=100;
+						min=0;
+						valido=0;
+						contpc=0;
+						break;
 					default:
 						printf("Opção inválida\n");
 						valido=0;
-						contpc--;
 				}
 			}
 			
 			if(acertou)
 				break;
 			
-			if(valido)
+			if(valido){
 				escolhapc=rand()%(max-min)+min;
-			printf("Tentativa %d \nO computador escolheu %d\n", ++contpc, escolhapc);
+				contpc++;
+			}
+			printf("Tentativa %d \nO computador escolheu %d\n", contpc, escolhapc);
+			printf("'>' = tente um maior, '<' = tente um menor, '=' = acertou, '#' = resetar\n");
 		}while(1);
 		while(getchar()!='\n');
 		
 		printf("PC vs usr\n");
 		printf("%02d vs %02d\n", contpc, contusr);
-		if(contpc>contusr){
+		if(contpc<contusr){
 			printf("Você perdeu a rodada e agora terá que disparar o revolvér.\n pressione ENTER para continuar\n");
 			getchar();
 			system("clear");
@@ -89,7 +97,7 @@ int main(){
 					printf("BAM \nVocê perdeu\n"); vencedor=1;
 			}
 		}
-		else if(contpc<contusr){
+		else if(contpc>contusr){
 			printf("O computador perdeu a rodada\n");
 			printf("Revolver[%d/6]\n", ++tambor);
 			system("sleep 2.5");
@@ -100,7 +108,6 @@ int main(){
 				case 1: 
 					printf("BAM \nVocê venceu\n"); vencedor=1;
 			}
-			tambor++;
 		}
 		else
 			printf("Empate, tentem novamente\n");
