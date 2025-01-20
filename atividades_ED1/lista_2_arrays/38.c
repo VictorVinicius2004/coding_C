@@ -15,6 +15,7 @@ int main(){
 	scanf(" %[^\n]s", string);
 	int len=strlen(string); 
 	int usados[len], vetor_sorteado[len], cont=0;
+	char string_cifrada[len+1];
 	
 	//deixando o vetor usados pronto para uso
 	for(int i=0; i<len; i++)
@@ -30,20 +31,24 @@ int main(){
 		}
 		//impedir um loop infinito que acontece quando só falta sortear última posição com ela mesma
 		if(usados[len-1]==0 && cont==len-1){
-			vetor_sorteado[cont]=cont-1;
-			vetor_sorteado[cont-1]=cont;
-			cont++;
+			for(int i=0; i<len; i++)
+				usados[i]=0;
+				
+			cont=0;
 		}
 	}while(cont<len);
 	
+	printf("\nA chave para criptografar:\n");
+	for(int i=0; i<len; i++)
+		printf("%d ", vetor_sorteado[i]);
+	printf("\n");
+	
 	//trocando as posições
 	for(int i=0; i<len; i++){
-		char aux=string[i];
-		string[i]=string[vetor_sorteado[i]];
-		string[vetor_sorteado[i]]=aux;
-	}
+		string_cifrada[vetor_sorteado[i]]=string[i];
+	}string_cifrada[len]=0;
 	
-	printf("\ntexto cifrado: \n\n%s", string);
+	printf("\ntexto cifrado: \n%s", string_cifrada);
 	return 0;
 }
 
