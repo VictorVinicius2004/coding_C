@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-#include <MINHA_BIBLIOTECA.h>
 
 /*Faça um programa que sorteie aleatoriamente N números, no intervalo entre X e Y (inclusive). Após o
 sorteio, o programa deve imprimir os números sorteados originalmente. Após isso, e a cada iteração, o
@@ -11,56 +10,51 @@ Repita essa operação até quando for possível.*/
 
 
 int main(){
+	srand(time(NULL));
 	int n, min, max;
 	printf("Digite a quantidade de números a serem sorteados.\n");
 	scanf(" %d", &n);
 	printf("Digite o valor mínimo e máximo, respectivamente, a serem sortados.\n");
 	scanf(" %d %d", &min, &max);
-	int vetor[n], trocados[n], permitido, maior=min-1, menor=max+1, pos_maior, pos_menor;
+	int vetor[n], trocados[n];
 	
-	printf("Vetor original: ");
 	for(int i=0; i<n; i++){
-		trocados[i]=n;
 		vetor[i]=rand()%(max-min+1)+min;
-		printf("%d ", vetor[i]);
+		trocados[i]=0;
 	}
-	printf("\n\n");
 	
-	printf("Novos vetores:\n");
 	do{
-		maior=min-1;
-		menor=max+1;
-			
+		int maior=min-1, menor=max+1, pos_maior, pos_menor;
+		
+		printf("\n");
+		for(int i=0; i<n; i++)
+			printf("%02d ", vetor[i]);
+		printf("\n");
+		
 		for(int i=0; i<n; i++){
-			permitido=!entre_vetor(i, n, trocados);
-			
-			if(permitido){
-				if(maior<vetor[i]){
-					maior=vetor[i];
-					pos_maior=i;
-				}
-				if(menor>vetor[i]){
-					menor=vetor[i];
-					pos_menor=i;
-				}
+			if(menor>vetor[i] && trocados[i]==0){
+				menor=vetor[i];
+				pos_menor=i;
+			}
+			if(maior<vetor[i] && trocados[i]==0){
+				maior=vetor[i];
+				pos_maior=i;
 			}
 		}
 		
-		if(maior>=min && menor<=max){
-			int aux=vetor[pos_maior];
-			vetor[pos_maior]=vetor[pos_menor];
-			vetor[pos_menor]=aux;
-			
-			trocados[pos_maior]=pos_maior;
-			trocados[pos_menor]=pos_menor;
-			
-			for(int i=0; i<n; i++)
-				printf("%d ", vetor[i]);
-			printf("\n\n");
-		}
-		else
+		int aux=vetor[pos_maior];
+		vetor[pos_maior]=vetor[pos_menor];
+		vetor[pos_menor]=aux;
+		
+		trocados[pos_maior]=1;
+		trocados[pos_menor]=1;
+		
+		if(maior==min-1 || menor==max+1)
 			break;
+			
+		printf("\npróxima troca: %02d e %02d\n", maior, menor);
+		printf("Posições [%d] e [%d]\n", pos_maior, pos_menor);
 	}while(1);
+	
 	return 0;
 }
-
