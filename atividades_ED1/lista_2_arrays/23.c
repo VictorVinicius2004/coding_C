@@ -18,45 +18,52 @@ até ser informada a string "exit" para encerrar a execução do programa.*/
 #define M 1000
 
 int main(){
-	char num_R[15], is_R=1;
-	printf("Digite um número romano.\n");
-	scanf(" %s", num_R);
-	int len=strlen(num_R);
-	int num_D[len];
-	
-	for(int i=0; i<len; i++){
-		if(num_R[i]=='I')
-			num_D[i]=I;
-		else if(num_R[i]=='V')
-			num_D[i]=V;
-		else if(num_R[i]=='X')
-			num_D[i]=X;
-		else if(num_R[i]=='L')
-			num_D[i]=L;
-		else if(num_R[i]=='C')
-			num_D[i]=C;
-		else if(num_R[i]=='D')
-			num_D[i]=D;
-		else if(num_R[i]=='M')
-			num_D[i]=M;
-		else{ 
-			is_R=0;
-			break;
-		}
-	}
+	char num_R[20], is_R=1;
+	do{
+		printf("Digite um número romano.\n");
+		scanf(" %s", num_R);
+		int len=strlen(num_R);
+		int num_D[len], num=0;
 		
-	if(is_R){
-		int num=num_D[0];
-		for(int i=1; i<len; i++){
-			if(num_D[i]<=num_D[i-1])
+		//finaliza o código
+		if(!strcmp(num_R, "exit"))
+			break;
+			
+		for(int i=0; i<len; i++){
+			//atribui um símbolo ao seu valor
+			if(i==0){
+				for(int j=0; j<len; j++){
+					switch(num_R[j]){
+						case 'I': num_D[j]=I; break;
+						case 'V': num_D[j]=V; break;
+						case 'X': num_D[j]=X; break;
+						case 'L': num_D[j]=L; break;
+						case 'C': num_D[j]=C; break;
+						case 'D': num_D[j]=D; break;
+						case 'M': num_D[j]=M; break;
+						default: is_R=0; break;
+					}
+					if(!is_R)
+						break;
+				}
+			}
+			
+			//se for inválido
+			if(!is_R){
+				printf("A string recebida não é um número romano.\n\n");
+				break;
+			}
+			//calculo do número
+			if(i==len-1)
 				num+=num_D[i];
-			else
-				num+=num_D[i]-num_D[i-1]*2;
+			else if(num_D[i]>=num_D[i+1])
+				num+=num_D[i];
+			else 
+				num-=num_D[i];
 		}
-		printf("Número convertido para decimal: %d", num);
-	}
-	else
-		printf("A string recebida não é um número romano.\n");
+			
+		if(is_R)
+			printf("Número convertido para decimal: %d\n\n", num);
+	}while(1);
 	return 0;
 }
-
