@@ -1,108 +1,83 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <gconio.h>
 
 #define CARTAS 7
 #define VAZIO 0
 
 int main(){
-	int player1[CARTAS], player2[CARTAS];
 	srand(time(NULL));
-	
-	for (int i = 0; i < CARTAS; i++){
-		player1[i]=rand()%10+1;
-		player2[i]=rand()%10+1;
+	int p1[CARTAS], p2[CARTAS];
+	for(int i=0; i<CARTAS; i++){
+		p1[i]=rand()%10+1;
+		p2[i]=rand()%10+1;
 	}
 	
+	int base=0, topo=CARTAS-1;
 	do{
-		int base[2], topo[2], cont1=0, cont2=0, pos1, pos2, aux;
-		
-		//pegando a carta do topo e da base
-		for (int i = cont1; i < CARTAS; i++)
-			if(player1[i]){
-				topo[0]=player1[i];
-				topo[1]=i;
-				break;
-			}
-		for (int i = 6-cont2; i >= 0 ; i--)
-			if(player2[i]){
-				base[0]=player2[i];
-				base[1]=i;
-				break;
-			}
-			
 		//interface
-		printf("Player 1: ");
-		for (int i = 0; i < CARTAS; i++){
-			if(player1[i])
-				printf("[%02d] ", player1[i]);
+		printf("P1: ");
+		for(int i=0; i<CARTAS; i++){
+			if(p1[i])
+				printf("[%02d] ", p1[i]);
 			else
 				printf("     ");
 		}
-		printf("\n\nPlayer 2: ");
-		for (int i = 0; i < CARTAS; i++)
-			if(player2[i])
-				printf("[%02d] ", player2[i]);
-		printf("\n\nCONFRONTO:\n");
-		printf("[%02d] VS [%02d]\n", topo[0], base[0]);
+		
+		printf("\n\nP2: ");
+		for(int i=0; i<CARTAS; i++)
+			if(p2[i])
+				printf("[%02d] ", p2[i]);
+		
+		printf("\n\n%d vs %d\n", p1[base], p2[topo]);
 		
 		//comparando as cartas
-		if(topo[0]>base[0]){
-			printf("Player 1 venceu a rodada\n");
-			player1[topo[1]]=VAZIO;
-			cont1++;
-			for (int i = 0; i < 100; i++){
-				pos1=rand()%CARTAS;
-				pos2=rand()%CARTAS;
-				if(player2[pos1]>0 && player2[pos2]>0){
-					aux=player2[pos1];
-					player2[pos1]=player2[pos2];
-					player2[pos2]=aux;
+		if(p1[base]>p2[topo]){
+			printf("P1(%d): ganhou\n", p1[base]);
+			p1[base++]=0;
+			
+			for(int i=0; i<=60; i++){
+				int pos1=rand()%CARTAS;
+				int pos2=rand()%CARTAS;
+				
+				if(p2[pos1] && p2[pos2]){
+					int aux=p2[pos1];
+					p2[pos1]=p2[pos2];
+					p2[pos2]=aux;
 				}
 			}
 		}
-		
-		if(topo[0]<base[0]){
-			printf("Player 2 venceu a rodada\n");
-			player2[base[1]]=VAZIO;
-			cont2++;
-			for (int i = 0; i < 100; i++){
-				pos1=rand()%CARTAS;
-				pos2=rand()%CARTAS;
-				if(player1[pos1]>0 && player1[pos2]>0){
-					aux=player1[pos1];
-					player1[pos1]=player1[pos2];
-					player1[pos2]=aux;
+		else if(p1[base]<p2[topo]){
+			printf("P2(%d): ganhou\n", p2[topo]);
+			p2[topo--]=0;
+			
+			for(int i=0; i<=60; i++){
+				int pos1=rand()%CARTAS;
+				int pos2=rand()%CARTAS;
+				
+				if(p1[pos1] && p1[pos2]){
+					int aux=p1[pos1];
+					p1[pos1]=p1[pos2];
+					p1[pos2]=aux;
 				}
 			}
 		}
-		
-		if(topo[0]==base[0]){
+		else{
 			printf("Empate\n");
-			player1[topo[1]]=VAZIO;
-			player2[base[1]]=VAZIO;
+			p1[base++]=0;
+			p2[topo--]=0;
 		}
 		
-		printf("Aperte qualquer tecla para continuar\n");
-		getch();
+		printf("Pressione ENTER para continuar\n");
+		getchar();
 		system("clear");
-		
-		//verificando o vencedor
-		if(!player1[6]){
-			system("clear");
-			printf("Player 1 venceu");
-			getch();
-			break;
-		}
-		if(!player2[0]){
-			system("clear");
-			printf("Player 2 venceu");
-			getch();
-			break;
-		}
-	} while (1);
+	}while(base<CARTAS && topo>=0);
 	
+	if(base==CARTAS && topo>=0)
+		printf("P1 ganhou");
+	else if(topo<0 && base <CARTAS)
+		printf("P2 ganhou");
+	else
+		printf("Empate");
 	return 0;
 }
-
