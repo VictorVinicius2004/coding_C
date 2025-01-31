@@ -6,6 +6,7 @@
 #include <time.h>
 #include <string.h>
 #include <gconio.h>
+#include <math.h>
 
 typedef struct{
 	int linha;
@@ -44,33 +45,24 @@ Posicao wasd(Posicao posicao){
 	return posicao;
 }
 
-int sorteio(float porcentagem, int vezes){
-	srand(time(NULL));
+int sorteio(float porcentagem){
 	int cento=100;
-	
-	if(vezes<=0)
-		return 0;	
-	else if(porcentagem<100 && porcentagem>0){
+		
+	if(porcentagem<=100 && porcentagem>0){
 		//transforma uma porcentagem float em exclusivamente inteira
 		while(porcentagem-(int)porcentagem!=0){
 			porcentagem*=10;
 			cento*=10;
 		}
 
-		for(int i=0; i<vezes; i++){
-			int num=rand()%cento+1;
+		int num=rand()%cento+1;
 
-			if(num<=porcentagem)
-				return 1;
-		}
+		if(num<=porcentagem)
+			return 1;
 		
 		return 0;
 	}
-	else{
-		if(porcentagem>=100)
-			return 1;
-		if(porcentagem<=0)
-			return 0;
-	}
+	else
+		return 0;
 }
 #endif
