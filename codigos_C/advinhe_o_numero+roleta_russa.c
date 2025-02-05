@@ -73,7 +73,7 @@ int main(){
 				break;
 			
 			if(valido){
-				escolhapc=rand()%(max-min)+min;
+				escolhapc=(max-min)/2+min;
 				contpc++;
 			}
 			printf("Tentativa %d \nO computador escolheu %d\n", contpc, escolhapc);

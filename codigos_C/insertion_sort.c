@@ -19,11 +19,9 @@ int main(){
 		int temp=vetor[i], j;
 		
 		for(j=i-1; j>=0; j--){
-			if(temp>=vetor[j])
-				break;
+			if(temp>=vetor[j]) break;
 			vetor[j+1]=vetor[j];
 		}
-		
 		vetor[j+1]=temp;
 	}
 	

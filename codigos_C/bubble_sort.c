@@ -19,27 +19,13 @@ int main(){
 	system("clear");
 			
 	//bubble sort
-	for(int i=0; i<n-1; i++){
-		for(int j=i+1; j<n; j++){
-			for(int k=0; k<n; k++){
-				if(k==i)
-					printf("[%02d] ", vetor[k]);
-				else if(k==j)
-					printf("{%02d} ", vetor[k]);
-				else
-					printf("%02d ", vetor[k]);
-			}
-			
+	for(int i=0; i<n-1; i++)
+		for(int j=i+1; j<n; j++)
 			if(vetor[i]>vetor[j]){
 				int aux=vetor[i];
 				vetor[i]=vetor[j];
 				vetor[j]=aux;
 			}
-			
-			getchar();
-			system("clear");
-		}
-	}
 	
 	printf("Vetor ordenado:\n");
 	for(int i=0; i<n; i++)
