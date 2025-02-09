@@ -35,7 +35,7 @@ int main(){
 		matriz[i][col2]=aux;
 	}
 	
-	//trocando as colunas
+	//trocando as linhas
 	for(int j=0; j<n; j++){
 		int aux=matriz[li1][j];
 		matriz[li1][j]=matriz[li2][j];
