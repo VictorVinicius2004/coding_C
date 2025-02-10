@@ -30,6 +30,9 @@ void printroleta(float saldo){
 int escolha(float saldo){
 	printroleta(saldo);
 	
+	if(saldo<=0)
+		return -1;
+		
 	int choice;
 	
 	printf("Digite: \n1-Apostar em um número(1 a 36). Multi=36x\n");
@@ -38,6 +41,7 @@ int escolha(float saldo){
 	printf("4-Cash out\n");
 	do{
 		scanf(" %d", &choice);
+		while(getchar()!='\n');
 	}while(choice<1 || choice >4);
 	
 	int decisao;
@@ -46,12 +50,14 @@ int escolha(float saldo){
 			printf("escolha um número de 1 a 36: ");
 			do{
 				scanf(" %d", &decisao);
+				while(getchar()!='\n');
 			}while(decisao<1 || decisao>36);
 			break;
 		case 2:
 			printf("Escolha: 1-impar, 2-par(0 não é considerado par ou impar)\n");
 			do{
 				scanf(" %d", &decisao);
+				while(getchar()!='\n');
 			}while(decisao!=1 && decisao!=2);
 			decisao = (decisao==1)? IMPAR : PAR;
 			break;
@@ -59,6 +65,7 @@ int escolha(float saldo){
 			printf("Escolha: 1-Vermelho, 2-Branco\n");
 			do{
 				scanf(" %d", &decisao);
+				while(getchar()!='\n');
 			}while(decisao!=1 && decisao!=2);
 			decisao = (decisao==1)? VERMELHO : BRANCO;
 			break;
@@ -91,6 +98,8 @@ Saldoesaida roleta(int decisao, Saldoesaida saldo){
 	int aposta;
 	printf("Digite quanto deseja apostar: ");
 	scanf(" %d", &aposta);
+	while(getchar()!='\n');
+	
 	if(aposta>saldo.valor)
 		aposta=saldo.valor;
 	if(aposta<0)
@@ -98,7 +107,12 @@ Saldoesaida roleta(int decisao, Saldoesaida saldo){
 	saldo.valor-=aposta;
 	
 	int sorteio=rand()%37;
-	printf("Número sorteado: %d\n", sorteio);
+	if(sorteio%2==0 && sorteio!=0)
+		printf("Número sorteado: \033[31m");
+	else if(sorteio==0) 
+		printf("Número sorteado: \033[32m");
+		
+	printf("%d\033[0m\n", sorteio);
 	switch(decisao){
 		case PAR:
 			aposta = (sorteio%2==0 && sorteio!=0)? aposta*2 : 0;
@@ -119,7 +133,6 @@ Saldoesaida roleta(int decisao, Saldoesaida saldo){
 		default:
 			aposta = (sorteio==decisao)? aposta*36 : 0;
 	}
-	while(getchar()!='\n');
 	printf("Aperte ENTER para continuar");
 	getchar();
 	
@@ -138,7 +151,13 @@ int main(){
 		saldo=roleta(escolha(saldo.valor), saldo);
 	}while(saldo.valor>0 && saldo.saida==0);
 	
-	printf("Saldo final: %.2f", saldo.valor);
+	printf("Saldo final: R$ %.2f\n", saldo.valor);
+	if(saldo.valor>1000)
+		printf("Lucro: R$ %.2f", saldo.valor-1000.00);
+	else if(saldo.valor<1000)
+		printf("Prezuízo: R$ %.2f", 1000-saldo.valor);
+	else
+		printf("Sem lucro ou prejuízo");
 	return 0;
 }
 
