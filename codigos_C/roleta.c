@@ -111,31 +111,30 @@ Saldoesaida roleta(int decisao, Saldoesaida saldo){
 		printf("Número sorteado: \033[31m");
 	else if(sorteio==0) 
 		printf("Número sorteado: \033[32m");
-		
 	printf("%d\033[0m\n", sorteio);
+	
 	switch(decisao){
 		case PAR:
-			aposta = (sorteio%2==0 && sorteio!=0)? aposta*2 : 0;
+			aposta *= (sorteio%2==0 && sorteio!=0)? 2 : 0;
 			break;
 			
 		case IMPAR:
-			aposta = (sorteio%2==1)? aposta*2 : 0;
+			aposta *= (sorteio%2==1)? 2 : 0;
 			break;
 			
 		case VERMELHO:
-			aposta = (roleta[sorteio].cor==VERMELHO)? aposta*2 : 0;
+			aposta *= (roleta[sorteio].cor==VERMELHO)? 2 : 0;
 			break;
 			
 		case BRANCO:
-			aposta = (roleta[sorteio].cor==BRANCO)? aposta*2 : 0;
+			aposta *= (roleta[sorteio].cor==BRANCO)? 2 : 0;
 			break;
 			
 		default:
-			aposta = (sorteio==decisao)? aposta*36 : 0;
+			aposta *= (sorteio==decisao)? 36 : 0;
 	}
 	printf("Aperte ENTER para continuar");
 	getchar();
-	
 	system("clear");
 	
 	saldo.valor+=aposta;
@@ -156,8 +155,6 @@ int main(){
 		printf("Lucro: R$ %.2f", saldo.valor-1000.00);
 	else if(saldo.valor<1000)
 		printf("Prezuízo: R$ %.2f", 1000-saldo.valor);
-	else
-		printf("Sem lucro ou prejuízo");
 	return 0;
 }
 
