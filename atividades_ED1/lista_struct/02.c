@@ -10,7 +10,12 @@ existentes no array é o mais próximo do horário atual do sistema, tanto do pa
 
 #define HORARIOS 10
 
-#define diferenca(temp, tempatual) (tempatual-temp>0? tempatual-temp : (tempatual-temp)*-1)
+int diferenca_tempo(Datetime tempo_atual, Datetime tempo){
+	int segundos=tempo.sec+tempo.min*60+tempo.hour*3600;
+	int segundos_atual=tempo_atual.sec+tempo_atual.min*60+tempo_atual.hour*3600;
+	
+	return (segundos>segundos_atual)? segundos-segundos_atual : segundos_atual-segundos;
+}
 
 int main(){
 	srand(time(NULL));
@@ -29,17 +34,8 @@ int main(){
 	for(int i=0; i<HORARIOS; i++){
 		if(i==0)
 			hora_proxima=horarios[i];
-		else{
-			if(diferenca(hora_proxima.hour, horaatual.hour)>diferenca(horarios[i].hour, horaatual.hour))
-				hora_proxima=horarios[i];
-			else if(diferenca(hora_proxima.min, horaatual.min)>diferenca(horarios[i].min, horaatual.min) 
-			&& hora_proxima.hour==horarios[i].hour)
-				hora_proxima=horarios[i];
-			else if(diferenca(hora_proxima.sec, horaatual.sec)>diferenca(horarios[i].sec, horaatual.sec) 
-			&& hora_proxima.min==horarios[i].min
-			&& hora_proxima.hour==horarios[i].hour)
-				hora_proxima=horarios[i];
-		}
+		else if(diferenca_tempo(horaatual, hora_proxima)>diferenca_tempo(horaatual, horarios[i]))
+			hora_proxima=horarios[i];
 	}
 	
 	printf("Horário mais próximo do atual: ");
