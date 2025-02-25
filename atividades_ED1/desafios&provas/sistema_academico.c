@@ -206,8 +206,8 @@ void matricula_aluno(Discente discentes[], Disciplina disciplinas[], int cont_di
 						if(disc!=-1){
 							disciplinas[disc].discentes[disciplinas[disc].alunos_matriculados++]=discentes[pos].matricula;
 							discentes[pos].notas[discentes[pos].disciplinas_matriculadas++].curso=disciplinas[disc].codigo;
-							printf("Matrícula realizada\n");
 							system("clear");
+							printf("Matrícula realizada\n");
 							break;
 						}
 						else
