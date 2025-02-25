@@ -84,7 +84,7 @@ int verifica_aluno_disciplina(int cont_aluno, int cont_disciplina){
 
 void sort_cr(Discente discentes[], int cont){
 	for(int i=0; i<cont-1; i++)
-		for(int j=0; j<cont; j++)
+		for(int j=i+1; j<cont; j++)
 			if(discentes[i].cr<discentes[j].cr){
 				Discente aux=discentes[i];
 				discentes[i]=discentes[j];
