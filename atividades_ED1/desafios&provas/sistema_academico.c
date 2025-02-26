@@ -287,23 +287,37 @@ void diario_disciplina(Disciplina disciplinas[], int cont){
 }
 
 void historico_discente(Discente discentes[], int cont){
-	if(cont)
-		for(int i=0; i<cont; i++){
-			printf("Nome: %s\n", discentes[i].nome);
-			printf("Matrícula: %d\n", discentes[i].matricula);
-			printf("Notas:\n");
-			for(int j=0; j<5; j++)
-				if(discentes[i].notas[j].curso!=-1)
-					printf("matricula: %d   nota: %.2f\n", discentes[i].notas[j].curso, discentes[i].notas[j].nota);
-			printf("Coeficiente de rendimento: %.2f\n\n", discentes[i].cr);
-		}
+	if(cont){
+		do{
+			int matricula;
+			printf("Digite o código do discente(-1 para encerrar): ");
+			scanf(" %d", &matricula);
+			if(matricula==-1){
+				system("clear");
+				break;
+			}
+			
+			int pos=busca_aluno(discentes, cont, matricula);
+			if(pos!=-1){
+				printf("Nome: %s\n", discentes[pos].nome);
+				printf("Matrícula: %d\n", discentes[pos].matricula);
+				printf("Notas:\n");
+				for(int j=0; j<5; j++)
+					if(discentes[pos].notas[j].curso!=-1)
+						printf("matricula: %d   nota: %.2f\n", discentes[pos].notas[j].curso, discentes[pos].notas[j].nota);
+				printf("Coeficiente de rendimento: %.2f\n\n", discentes[pos].cr);
+				
+				while(getchar()!='\n');
+				printf("Aperte ENTER para continuar");
+				getchar();
+				system("clear");
+			}
+			else
+				printf("Matrícula inválida\n");
+		}while(1);
+	}
 	else
 		printf("Nenhum aluno cadastrado\n");
-		
-	while(getchar()!='\n');
-	printf("Aperte ENTER para continuar");
-	getchar();
-	system("clear");
 }
 
 void ranking_cr(Discente discentes[], int cont){
