@@ -12,6 +12,7 @@
 #define VERMELHO "\033[31m"
 #define VERDE "\033[32m"
 #define AMARELO "\033[33m"
+#define AZUL "\033[34m"
 #define FIM_COR "\033[0m"
 
 enum {LIMPO, CHEIO, MARCADO, NEUTRO, VISIVEL};
@@ -34,7 +35,6 @@ Posicao posicao;
 int inicializado=0;
 int perdeu=0;
 int posicoes_abertas=0;
-int marcacoes=0;
 
 //implementação
 void revelar(int i, int j){
@@ -78,11 +78,9 @@ void opcao(char escolha){
 			if(campo[posicao.linha][posicao.coluna].estado!=VISIVEL){
 				if(campo[posicao.linha][posicao.coluna].estado==MARCADO){
 					campo[posicao.linha][posicao.coluna].estado=NEUTRO;
-					marcacoes--;
 					break;
 				}
 				campo[posicao.linha][posicao.coluna].estado=MARCADO;
-				marcacoes++;
 			}
 	}
 }
@@ -118,34 +116,41 @@ int selecao(){
 void interface(){
 	do{
 		system("clear");
-		printf("BOMBAS: %d     MARCAÇÕES: %d\n", BOMBAS, marcacoes);
+		printf("BOMBAS: %d\n", BOMBAS);
 		for(int i=0; i<LINHAS; i++){
 			for(int j=0; j<COLUNAS; j++){
 				if(inicializado){
 					if(i==posicao.linha && j==posicao.coluna)
-						printf("@ ");
-					else if(campo[i][j].estado==VISIVEL){
+						printf("%s",AZUL);
+					if(campo[i][j].estado==VISIVEL){
 						if(campo[i][j].bombas_proximas>0)
 							printf("%d ", campo[i][j].bombas_proximas);
-						else
-							printf("  ");
+						else{
+							if(i!=posicao.linha || j!=posicao.coluna)
+								printf("  ");
+							else
+								printf("@ ");
+						}
+						printf("%s", FIM_COR);
+						continue;
 					}
-					else if(campo[i][j].estado==MARCADO)
-						printf("%s#%s ", AMARELO, FIM_COR);
-					else 
-						printf("%s#%s ", VERDE, FIM_COR);
+					else if(campo[i][j].estado==MARCADO && (i!=posicao.linha || j!=posicao.coluna))
+						printf("%s", AMARELO);
+					else if(i!=posicao.linha || j!=posicao.coluna)
+						printf("%s", VERDE);
+					printf("#%s ", FIM_COR);
 				}
 				else{
 					if(i!=posicao.linha || j!=posicao.coluna)
-						printf("%s#%s ", VERDE, FIM_COR);
+						printf("%s", VERDE);
 					else
-						printf("@ ");
-					
+						printf("%s", AZUL);
+					printf("#%s ",FIM_COR);
 				}
 			}
 			printf("\n");
 		}
-		printf("WASD para se mover, 1 para vizualizar, 2 para marcar,\n");
+		printf("WASD para se mover, 1 para vizualizar, 2 para marcar ou desmarcar,\n");
 		int confirmado = selecao();
 		
 		if(confirmado) break;
