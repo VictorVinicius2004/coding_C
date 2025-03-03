@@ -5,7 +5,7 @@
 #include <gconio.h>
 
 //constantes
-#define LINHAS 10
+#define LINHAS 13
 #define COLUNAS 10
 #define BOMBAS 25
 
@@ -35,6 +35,7 @@ Posicao posicao;
 int inicializado=0;
 int perdeu=0;
 int posicoes_abertas=0;
+int marcacoes=0;
 
 //implementação
 void revelar(int i, int j){
@@ -78,9 +79,11 @@ void opcao(char escolha){
 			if(campo[posicao.linha][posicao.coluna].estado!=VISIVEL){
 				if(campo[posicao.linha][posicao.coluna].estado==MARCADO){
 					campo[posicao.linha][posicao.coluna].estado=NEUTRO;
+					marcacoes--;
 					break;
 				}
 				campo[posicao.linha][posicao.coluna].estado=MARCADO;
+				marcacoes++;
 			}
 	}
 }
@@ -116,7 +119,7 @@ int selecao(){
 void interface(){
 	do{
 		system("clear");
-		printf("BOMBAS: %d\n", BOMBAS);
+		printf("BOMBAS: %d       MARCAÇÕES: %d\n", BOMBAS, marcacoes);
 		for(int i=0; i<LINHAS; i++){
 			for(int j=0; j<COLUNAS; j++){
 				if(inicializado){
@@ -206,6 +209,7 @@ int main(){
 	interface();
 	inicializa_campo();
 	revelar(posicao.linha, posicao.coluna);
+	int temp_inicial=time(NULL);
 	
 	inicializado=1;
 	do{
@@ -218,8 +222,8 @@ int main(){
 			break;
 		}
 		if(posicoes_abertas==LINHAS*COLUNAS-BOMBAS){
-			system("clear");
-			printf("Parabéns! você venceu\n");
+			int temp_final=time(NULL);
+			printf("Parabéns! você venceu \nTempo: %d segundos", temp_final-temp_inicial);
 			break;
 		}
 	}while(1);
