@@ -5,8 +5,8 @@
 #include <gconio.h>
 
 //constantes
-#define LINHAS 13
-#define COLUNAS 10
+#define LINHAS 15
+#define COLUNAS 11
 #define BOMBAS 25
 
 #define VERMELHO "\033[31m"
@@ -142,6 +142,9 @@ int selecao(){
 							opcao(direcao, i, j);
 			}
 		case '2':
+			if(!inicializado)
+				return 1;
+				
 			opcao(direcao, posicao.linha, posicao.coluna);
 				
 			return 1;
@@ -235,10 +238,27 @@ void calcular_bombas_proximas(){
 				}
 }
 
+int pelo_menos_uma_bomba_por_linha(){
+	for(int i=0; i<LINHAS; i++){
+		int bomba_encontrada=0;
+		for(int j=0; j<COLUNAS; j++)
+			if(campo[i][j].bomba==CHEIO){
+				bomba_encontrada=1;
+				break;
+			}
+		if(!bomba_encontrada)
+			return 0;
+	}
+	
+	return 1;
+}
+
 void inicializa_campo(){
-	tratar_lixo_no_campo();
-	colocar_bombas();
-	calcular_bombas_proximas();
+	do{
+		tratar_lixo_no_campo();
+		colocar_bombas();
+		calcular_bombas_proximas();
+	}while(!pelo_menos_uma_bomba_por_linha());
 }
 
 int main(){
