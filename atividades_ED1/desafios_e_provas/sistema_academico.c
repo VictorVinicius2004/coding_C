@@ -353,7 +353,7 @@ int interface(){
 int main(){
 	Disciplina disciplinas[50];
 	Discente discentes[200];
-	int cont_alunos=0;
+	int cont_discentes=0;
 	int cont_disciplinas=0;
 	
 	do{
@@ -363,26 +363,26 @@ int main(){
 				cadastro_disciplinas(disciplinas, &cont_disciplinas);
 				break;
 			case 2:
-				cadastro_discentes(discentes, &cont_alunos);
+				cadastro_discentes(discentes, &cont_discentes);
 				break;
 			case 3:
-				if(verifica_aluno_disciplina(cont_alunos, cont_disciplinas))
-					matricula_aluno(discentes, disciplinas, cont_alunos, cont_disciplinas);
+				if(verifica_aluno_disciplina(cont_discentes, cont_disciplinas))
+					matricula_aluno(discentes, disciplinas, cont_discentes, cont_disciplinas);
 				break;
 			case 4:
-				if(verifica_aluno_disciplina(cont_alunos, cont_disciplinas))
-					lancar_notas(discentes, disciplinas, cont_alunos, cont_disciplinas);
-				calculo_cr(discentes, cont_alunos);
+				if(verifica_aluno_disciplina(cont_discentes, cont_disciplinas))
+					lancar_notas(discentes, disciplinas, cont_discentes, cont_disciplinas);
+				calculo_cr(discentes, cont_discentes);
 				break;
 			case 5:
 				diario_disciplina(disciplinas, cont_disciplinas);
 				break;
 			case 6:
-				historico_discente(discentes, cont_alunos);
+				historico_discente(discentes, cont_discentes);
 				break;
 			case 7:
-				sort_cr(discentes, cont_alunos);
-				ranking_cr(discentes, cont_alunos);
+				sort_cr(discentes, cont_discentes);
+				ranking_cr(discentes, cont_discentes);
 				break;
 			case 8:
 				saida=1;

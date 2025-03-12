@@ -162,13 +162,17 @@ void interface(){
 					if(i==posicao.linha && j==posicao.coluna)
 						printf("%s",AZUL);
 					if(campo[i][j].estado==VISIVEL){
-						if(campo[i][j].bombas_proximas>0)
-							printf("%d ", campo[i][j].bombas_proximas);
+						if(campo[i][j].bombas_proximas>0){
+							if(i==posicao.linha && j==posicao.coluna)
+								printf("{%d}", campo[i][j].bombas_proximas);
+							else
+								printf(" %d ", campo[i][j].bombas_proximas);
+						}
 						else{
 							if(i!=posicao.linha || j!=posicao.coluna)
-								printf("  ");
+								printf("   ");
 							else
-								printf("@ ");
+								printf("{@}");
 						}
 						printf("%s", FIM_COR);
 						continue;
@@ -177,14 +181,16 @@ void interface(){
 						printf("%s", AMARELO);
 					else if(i!=posicao.linha || j!=posicao.coluna)
 						printf("%s", VERDE);
-					printf("#%s ", FIM_COR);
+					if(i!=posicao.linha || j!=posicao.coluna)
+						printf(" #%s ", FIM_COR);
+					else
+						printf("{#}%s", FIM_COR);
 				}
 				else{
 					if(i!=posicao.linha || j!=posicao.coluna)
-						printf("%s", VERDE);
+						printf(" %s#%s ", VERDE, FIM_COR);
 					else
-						printf("%s", AZUL);
-					printf("#%s ",FIM_COR);
+						printf("%s{#}%s", AZUL, FIM_COR);
 				}
 			}
 			printf("\n");
@@ -283,7 +289,7 @@ int main(){
 		}
 		if(posicoes_abertas==LINHAS*COLUNAS-BOMBAS){
 			int temp_final=time(NULL);
-			printf("Parabéns! você venceu \nTempo: %d segundos", temp_final-temp_inicial);
+			printf("Parabéns! você venceu \nTempo: %d segundos\n", temp_final-temp_inicial);
 			break;
 		}
 	}while(1);
