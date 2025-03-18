@@ -58,11 +58,11 @@ void mostrar_bombas(){
 	for(int i=0; i<LINHAS; i++){
 		for(int j=0; j<COLUNAS; j++){
 			if(campo[i][j].bomba==CHEIO)
-				printf("%s#%s ", VERMELHO, FIM_COR);
+				printf(" %s#%s ", VERMELHO, FIM_COR);
 			else if(campo[i][j].bombas_proximas>0)
-				printf("%d ", campo[i][j].bombas_proximas);
+				printf(" %d ", campo[i][j].bombas_proximas);
 			else
-				printf("  ");
+				printf("   ");
 		}
 		printf("\n");
 	}
