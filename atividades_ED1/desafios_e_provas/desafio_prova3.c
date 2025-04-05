@@ -169,6 +169,7 @@ void interface_principal(FILE *usr, FILE *posts, Usuario usuario){
 			case 8:
 				return;
 			default:
+				espera_enter("Opção inválida");
 		}
 	}while(1);
 }
