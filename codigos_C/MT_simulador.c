@@ -97,6 +97,7 @@ void print_regras(FILE *mt){
 	int cont=1;
 	Funcao temp;
 	fseek(mt,0,SEEK_SET);
+	system("clear");
 	printf("(estado atual, símbolo atual) -> (novo estado, novo símbolo, direção)\n");
 	while(fread(&temp,sizeof(Funcao),1,mt)){
 		if(temp.excluido)
@@ -218,26 +219,32 @@ int vasculhar_regras(FILE *mt, char estado[], char simbolo){
 	return 0;
 }
 
-void verifica_final(char estado[], char f[]){
-	if(!strcmp(estado,f))
-		espera_enter("Válido");
-	else
-		espera_enter("Inválido");
-}
-
-void execucao_MT(FILE *mt, char fita[], char estado[], char f[]){
+int execucao_MT(FILE *mt, char fita[], char estado[], char f[]){
 	char copia_fita[TAMANHO_FITA];
 	char copia_estado[10];
 	strcpy(copia_fita,fita);
 	strcpy(copia_estado,estado);
 	int posicao=INICIO_CONTEUDO;
 	
+	int modo_operacao;
+	printf("1) modo manual \n2) modo automático\n");
+	do{
+		scanf(" %d", &modo_operacao);
+		while(getchar()!='\n');
+	}while(modo_operacao!=1 && modo_operacao!=2);
+	int velocidade;
+	if(modo_operacao==2){
+		printf("1) rápido \n2) médio \n3) lento\n");
+		scanf(" %d", &velocidade);
+	}
+	
 	do{
 		system("clear");
 		print_fita(copia_fita,posicao);
 		if(!vasculhar_regras(mt,copia_estado,copia_fita[posicao])){
-			verifica_final(copia_estado,f);
-			return;
+			if(!strcmp(copia_estado,f))
+				return 1;
+			return 0;
 		}
 		Funcao temp;
 		fread(&temp,sizeof(Funcao),1,mt);
@@ -248,12 +255,25 @@ void execucao_MT(FILE *mt, char fita[], char estado[], char f[]){
 			posicao++;
 		else
 			posicao--;
-		
-		printf("1) continuar, 2) interromper execução\n");
-		int escolha;
-		scanf(" %d",&escolha);
-		if(escolha==2)
-			return;
+		if(modo_operacao==1){
+			printf("1) continuar \n2) interromper execução\n");
+			int escolha;
+			scanf(" %d",&escolha);
+			if(escolha==2)
+				return 2;
+		}
+		else
+			switch(velocidade){
+				case 1:
+					system("sleep 0.5");
+					break;
+				case 2:
+					system("sleep 0.7");
+					break;
+				case 3:
+					system("sleep 1");
+					break;
+			}
 	}while(1);
 }
 
@@ -290,8 +310,13 @@ void executar_MT(FILE *mt){
 				fita_definida = definir_fita(fita);
 				break;
 			case 4:
-				if(estados_definidos && fita_definida)
-					execucao_MT(mt,fita,estado_inicial,aceitacao);
+				if(estados_definidos && fita_definida){
+					int resultado = execucao_MT(mt,fita,estado_inicial,aceitacao);
+					if(resultado==1)
+						espera_enter("válido");
+					if(resultado==0)
+						espera_enter("inválido");
+				}
 				else
 					espera_enter("Preparações não satisfeitas");
 				break;
