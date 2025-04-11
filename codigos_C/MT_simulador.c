@@ -122,6 +122,7 @@ void excluir_regra(FILE *mt){
 			temp.excluido=1;
 			fseek(mt,-sizeof(Funcao),SEEK_CUR);
 			fwrite(&temp,sizeof(Funcao),1,mt);
+			fflush(mt);
 		}
 	}while(1);
 }
