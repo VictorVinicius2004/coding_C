@@ -53,12 +53,36 @@ int procurar_regra(FILE *mt, int num){
 	return 0;
 }
 
+void print_funcao(Funcao temp){
+	printf("(%s,%c) -> (%s,%c,",temp.estado_atual,temp.simbolo_atual,temp.novo_estado,temp.novo_simbolo);
+		if(temp.direcao==RIGHT)
+			printf("->)\n");
+		else
+			printf("<-)\n");
+}
+
+void print_regras(FILE *mt){
+	int cont=1;
+	Funcao temp;
+	fseek(mt,0,SEEK_SET);
+	system("clear");
+	printf("(estado atual, símbolo atual) -> (novo estado, novo símbolo, direção)\n");
+	while(fread(&temp,sizeof(Funcao),1,mt)){
+		if(temp.excluido)
+			continue;
+		printf("%d. ",cont);
+		print_funcao(temp);
+		cont++;
+	}
+}
+
 void nova_regra(FILE *mt){
     do{
-		system("clear");
         fseek(mt,0,SEEK_END);
         Funcao new;
         new.excluido=0;
+        
+        print_regras(mt);
         printf("Estado atual(SAIR para sair): ");
         scanf(" %9s", new.estado_atual);
         if(!strcmp("SAIR",new.estado_atual))
@@ -83,29 +107,6 @@ void nova_regra(FILE *mt){
             fflush(mt);
         }
     }while(1);
-}
-
-void print_funcao(Funcao temp){
-	printf("(%s,%c) -> (%s,%c,",temp.estado_atual,temp.simbolo_atual,temp.novo_estado,temp.novo_simbolo);
-		if(temp.direcao==RIGHT)
-			printf("->)\n");
-		else
-			printf("<-)\n");
-}
-
-void print_regras(FILE *mt){
-	int cont=1;
-	Funcao temp;
-	fseek(mt,0,SEEK_SET);
-	system("clear");
-	printf("(estado atual, símbolo atual) -> (novo estado, novo símbolo, direção)\n");
-	while(fread(&temp,sizeof(Funcao),1,mt)){
-		if(temp.excluido)
-			continue;
-		printf("%d. ",cont);
-		print_funcao(temp);
-		cont++;
-	}
 }
 
 void excluir_regra(FILE *mt){
