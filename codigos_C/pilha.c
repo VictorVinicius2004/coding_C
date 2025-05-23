@@ -101,12 +101,12 @@ Num *excluir_num(Num *top){
 }
 
 int interface(){
-	printf("1) push\n");
-	printf("2) pop\n");
-	printf("3) listar\n");
-	printf("4) procurar número\n");
-	printf("5) excluir número\n");
-	printf("6) sair\n");
+	printf("1) Push\n");
+	printf("2) Pop\n");
+	printf("3) Listar\n");
+	printf("4) Procurar número\n");
+	printf("5) Excluir número\n");
+	printf("6) Sair\n");
 	
 	int escolha;
 	scanf(" %d", &escolha);

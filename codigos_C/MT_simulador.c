@@ -210,7 +210,8 @@ int vasculhar_regras(FILE *mt, char estado[], char simbolo){
 	int cont=1;
 	fseek(mt,0,SEEK_SET);
 	while(fread(&temp,sizeof(temp),1,mt)){
-		if(!strcmp(temp.estado_atual,estado) && temp.simbolo_atual==simbolo && !temp.excluido){
+		if(!strcmp(temp.estado_atual,estado) && 
+		temp.simbolo_atual==simbolo && !temp.excluido){
 			fseek(mt,-sizeof(Funcao),SEEK_CUR);
 			return cont;
 		}
