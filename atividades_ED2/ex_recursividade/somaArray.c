@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAMANHO 10
+#define TAMANHO 5
 #define RAND 5
 
 int somaArray(int array[], int indice){
-	return (indice<0)? 0 : array[indice] + somaArray(array, indice-1);
+	return (indice==0)? array[indice] : array[indice] + somaArray(array, indice-1);
 }
 
 int main(){

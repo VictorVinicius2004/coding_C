@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define TAMANHO 25
+#define TAMANHO 10
 #define MAX_NUM 100
 
 int findMax(int array[], int indice){
