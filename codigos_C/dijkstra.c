@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define VERTICES 4
 #define INFINITO 2147483647
@@ -10,16 +11,27 @@ typedef struct{
 	int destino;
 	int peso;
 	int origem;
-	int visitado;
 }Tabela;
 
-void inicializaTabela(Tabela tabela[]){
+typedef struct LinkedList{
+	int vertice;
+	struct LinkedList* proximo;
+}LinkedList;
+
+void inicializaTabela(Tabela tabela[],int origem){
 	for(int i=0; i<VERTICES; i++){
 		tabela[i].destino=i;
-		tabela[i].visitado=FALSO;
 		tabela[i].origem=INDEFINIDO;
-		tabela[i].peso = (i==0)? 0 : INFINITO;
+		tabela[i].peso = (i==origem)? 0 : INFINITO;
 	}
+}
+
+void printLinkedList(LinkedList* queue){
+	while(queue->proximo!=NULL){
+		printf("%d, ",queue->vertice);
+		queue=queue->proximo;
+	}
+	printf("%d\n",queue->vertice);
 }
 
 void printTabela(Tabela tabela[]){
@@ -33,35 +45,78 @@ void printTabela(Tabela tabela[]){
 			printf("%02d",tabela[i].origem);
 		printf("\n");
 	}
-	printf("\n");
 }
 
-void dijkstra(int grafo[VERTICES][VERTICES],int origem, int final, Tabela tabela[]){
-	for(int origem=0; origem<VERTICES; origem++){
+int procuraVertice(LinkedList* queue, int alvo){
+	while(queue!=NULL){
+		if(queue->vertice==alvo)
+			return 1;
+		queue = queue->proximo;
+	}
+	return 0;
+}
+
+LinkedList* adicionaALista(LinkedList* queue, int vertice){
+	if(procuraVertice(queue,vertice))
+		return queue;
+	
+    LinkedList* novo = malloc(sizeof(LinkedList));
+    novo->vertice = vertice;
+    novo->proximo = NULL;
+
+    if (!queue)
+        return novo;
+
+    LinkedList* temp = queue;
+    while (temp->proximo != NULL){
+        temp = temp->proximo;
+    }
+    temp->proximo = novo;
+
+    return queue;
+}
+
+LinkedList* proximoDaLista(LinkedList* queue){
+	LinkedList* novo = queue->proximo;
+	free(queue);
+	return novo;
+}
+
+void dijkstra(int grafo[VERTICES][VERTICES], int origem, Tabela tabela[]){
+	LinkedList* fila=NULL;
+	LinkedList* visitados=NULL;
+	fila = adicionaALista(fila,origem);
+	
+	while(fila!=NULL){
+		visitados = adicionaALista(visitados,fila->vertice);
+
 		for(int destino=0; destino<VERTICES; destino++){
-			if(grafo[origem][destino]==0)
+			if(grafo[fila->vertice][destino]==0 || destino==origem)
 				continue;
-			if(origem==final)
-				return;
-				
-			int alterado=FALSO;
-			tabela[origem].visitado=VERDADEIRO;
 			
-			int pesoAtual = grafo[origem][destino] + tabela[origem].peso;
+			if(!procuraVertice(visitados,destino))
+				fila = adicionaALista(fila,destino);
+			
+			int pesoAtual = grafo[fila->vertice][destino] + tabela[fila->vertice].peso;
 			if(pesoAtual<tabela[destino].peso){
 				tabela[destino].peso=pesoAtual;
-				tabela[destino].origem=origem;
-				alterado=VERDADEIRO;
+				tabela[destino].origem=fila->vertice;
+				
+				if(procuraVertice(visitados,destino)){
+					fila->vertice=destino;
+					destino=0;
+				}
 			}
-			
-			printf("{%d --> %d}\n",origem,destino);
+			printf("%d --> %d\n",fila->vertice,destino);
 			printTabela(tabela);
-			
-			if(alterado==VERDADEIRO && tabela[destino].visitado==VERDADEIRO){
-				origem=destino;
-				destino=0;
-			}
-		}
+			printf("Fila: ");
+			printLinkedList(fila);
+			printf("Visitados: ");
+			printLinkedList(visitados);
+			printf("\n");
+		}	
+		
+		fila = proximoDaLista(fila);
 	}
 }
 
@@ -82,15 +137,15 @@ void printCaminho(Tabela tabela[], int origem, int destino){
 int main(){
 	int grafo[VERTICES][VERTICES]={
 	  // 0 1 2 3
-		{0,6,4,0},//0
-		{6,0,1,2},//1
-		{4,1,0,4},//2
-		{0,2,4,0},//3
+		{0,4,6,0},//0
+		{4,0,1,4},//1
+		{6,1,0,2},//2
+		{0,4,2,0},//3
 	};
 	Tabela tabela[VERTICES];
-	inicializaTabela(tabela);
+	inicializaTabela(tabela,0);
 	
-	dijkstra(grafo,0,3,tabela);
+	dijkstra(grafo,0,tabela);
 	printCaminho(tabela,0,3);
 	return 0;
 }
