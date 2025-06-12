@@ -1,112 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct Num{
-	int num;
-	struct Num *next;
-}Num;
+typedef struct Pessoa{
+	char nome[50];
+	int idade;
+	struct Pessoa *next;
+}Pessoa;
 
 void espera_enter(char *msg){
 	printf("%s\nAperte ENTER para continuar\n",msg);
-	while(getchar()!='\n');
+	setbuf(stdin,NULL);
 	getchar();
 }
 
-Num *push(Num *top){
-	int valor;
-	printf("Digite o valor a ser colocado na pilha:\n");
-	scanf(" %d", &valor);
+Pessoa *push(Pessoa *top){
+	int idade;
+	char nome[50];
+	printf("Nome: ");
+	scanf(" %s",nome);
+	printf("Idade: ");
+	scanf(" %d", &idade);
 
-	Num *novo_num = malloc(sizeof(Num));
-	novo_num->num=valor;
-	novo_num->next=top;
-	return novo_num;
+	Pessoa *nova_pessoa = malloc(sizeof(Pessoa));
+	nova_pessoa->idade=idade;
+	strcpy(nova_pessoa->nome,nome);
+	nova_pessoa->next=top;
+	return nova_pessoa;
 }
 
-void listar(Num *top){
+void listar(Pessoa *top){
 	while(top){
-		printf("[%02d] ", top->num);
+		printf("Nome: %s\n", top->nome);
+		printf("Idade: %02d\n\n",top->idade);
 		top = top->next;
 	}
 }
 
-Num *pop(Num *top){
+Pessoa *pop(Pessoa *top){
 	if(!top){
 		espera_enter("Pilha vazia");
 		return top;
 	}
-	Num *novo_topo = top->next;
+	Pessoa *novo_topo = top->next;
 	free(top);
 	return novo_topo; 
 }
 
-int procura_num(Num *top, int valor){
-	int cont=0;
-	while(top){
-		if(top->num==valor)
-			return cont;
-			
-		cont++;
-		top = top->next;
-	}
-	return -1;
-}
-
-void search(Num *top){
-	printf("Digite o número que deseja encontrar:\n");
-	int valor;
-	scanf(" %d", &valor);
-	int posicao = procura_num(top,valor);
-	
-	if(posicao!=-1)
-		printf("Número encontrado na posição %d\n",posicao);
-	else
-		printf("Número não encontrado\n");
-	espera_enter("");
-}
-
-Num *excluir_num(Num *top){
-	int num;
-	printf("Digite o número que deseja excluir\n");
-	scanf(" %d", &num);
-	
-	int posicao = procura_num(top,num);
-	Num *top_temp;
-	if(posicao==0){
-		top_temp = top->next;
-		free(top);
-		return top_temp;
-	}
-	
-	if(posicao!=-1){
-		int cont = 0;
-		Num *guarda_topo = top;
-		while(top){
-			Num *temp;
-			if(cont==posicao-1)
-				temp = top;
-			if(cont==posicao){
-				temp->next = top->next;
-				free(top);
-				return guarda_topo;
-			}
-			top=top->next;
-			cont++;
-		}
-	}
-	
-	espera_enter("Número não encontrado");
-	return top;
-	
+void excluirPilha(Pessoa* topo){
+	while(topo)
+		topo = pop(topo);
 }
 
 int interface(){
 	printf("1) Push\n");
 	printf("2) Pop\n");
 	printf("3) Listar\n");
-	printf("4) Procurar número\n");
-	printf("5) Excluir número\n");
-	printf("6) Sair\n");
+	printf("4) Sair\n");
 	
 	int escolha;
 	scanf(" %d", &escolha);
@@ -114,7 +64,7 @@ int interface(){
 }
 
 int main(){
-	Num *top = NULL;
+	Pessoa *top = NULL;
 	do{
 		system("clear");
 		switch(interface()){
@@ -125,11 +75,8 @@ int main(){
 			case 3:	listar(top);
 					espera_enter("");
 					break;
-			case 4:	search(top);
-					break;
-			case 5:	top = excluir_num(top);
-					break;
-			case 6:	return 0;
+			case 4:	excluirPilha(top);
+					return 0;
 		}
 		
 	}while(1);

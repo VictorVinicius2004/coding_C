@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Num{
-	int num;
-	struct Num* next;
-}Num;
+typedef struct Pessoa{
+	char nome[50];
+	int idade;
+	struct Pessoa* next;
+}Pessoa;
+
+typedef struct{
+	Pessoa* head;
+	Pessoa* tail;
+}Fila;
 
 void espera_enter(char* msg){
 	printf("%s\nPressione ENTER para continuar\n",msg);
@@ -12,62 +18,66 @@ void espera_enter(char* msg){
 	getchar();
 }
 
+Pessoa* enqueue(Pessoa* tail){
+	Pessoa* new = malloc(sizeof(Pessoa));
+	printf("Nome: ");
+	scanf(" %s", new->nome);
+	printf("Idade: ");
+	scanf(" %d",&new->idade);
+	new->next=NULL;
+	if(tail)		
+		tail->next=new;
+	return new;
+}
+
+Pessoa* dequeue(Pessoa* head){
+	Pessoa* newHead = head->next;
+	free(head);
+	return newHead;
+}
+
+void listar(Pessoa* head){
+	while(head){
+		printf("Nome: %s \nIdade: %d\n\n",head->nome,head->idade);
+		head = head->next;
+	}
+	espera_enter("");
+}
+
+void excluirFila(Pessoa* head){
+	while(head)
+		head = dequeue(head);
+}
+
 int interface(){
 	printf("1) Enqueue\n");
 	printf("2) Dequeue\n");
-	printf("3) List\n");
+	printf("3) Listar\n");
 	printf("4) Sair\n");
 	int escolha;
 	scanf(" %d", &escolha);
 	return escolha;
 }
 
-Num* enqueue(Num* tail){
-	Num* new = malloc(sizeof(Num));
-	printf("Digite um número: ");
-	scanf(" %d", &new->num);
-	if(tail)
-		tail->next=new;
-	new->next=NULL;
-	return new;
-}
-
-Num* dequeue(Num* head){
-	if(!head){
-		espera_enter("Fila vazia");
-		return head;
-	}
-	head = head->next;
-	return head;
-}
-
-void list(Num* head){
-	while(head){
-		printf("[%02d] ", head->num);
-		head = head->next;
-	}
-	espera_enter("");
-}
-
 int main(){
-	Num* head = NULL;
-	Num* tail = NULL;
+	Fila fila;
+	fila.head = fila.tail = NULL;
 	
 	do{
 		system("clear");
 		
 		switch(interface()){
-			case 1:	tail = enqueue(tail);
-					if(!head)
-						head = tail;
+			case 1:	fila.tail = enqueue(fila.tail);
+					if(!fila.head)
+						fila.head = fila.tail;
 					break;
-			case 2:	head = dequeue(head);
+			case 2:	fila.head = dequeue(fila.head);
 					break;
-			case 3:	list(head);
+			case 3:	listar(fila.head);
 					break;
-			case 4:	return 0;
+			case 4:	excluirFila(fila.head);
+					return 0;
 		}
 	}while(1);
-	return 0;
 }
 
