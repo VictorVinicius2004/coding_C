@@ -18,7 +18,7 @@ Pessoa *push(Pessoa *top){
 	int idade;
 	char nome[50];
 	printf("Nome: ");
-	scanf(" %s",nome);
+	scanf(" %[^\n]s",nome);
 	printf("Idade: ");
 	scanf(" %d", &idade);
 
