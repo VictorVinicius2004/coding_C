@@ -22,7 +22,7 @@ void cadastroPessoa(List lst){
 	scanf(" %f",&peso);
 	
 	int escolha;
-	printf("1) push \n2)enqueue\n");
+	printf("\n1) push \n2)enqueue\n");
 	do{
 		scanf(" %d",&escolha);
 	}while(escolha!=1 && escolha!=2);
@@ -42,12 +42,19 @@ void cadastroCasa(List lst){
 	scanf(" %d",&numero);
 	
 	int escolha;
-	printf("1) push \n2)enqueue\n");
+	printf("\n1) push \n2)enqueue\n");
 	do{
 		scanf(" %d",&escolha);
 	}while(escolha!=1 && escolha!=2);
 	if(escolha==1) lst->push(lst,new(Casa,bairro,rua,numero));
 	else lst->enqueue(lst,new(Casa,bairro,rua,numero));
+}
+
+void interfaceGet(List lst){
+	int indice;
+	printf("digite o índice do item a ser excluído\n");
+	scanf(" %d",&indice);
+	lst->head->destroy(lst->get(lst,indice));
 }
 
 int interface(){

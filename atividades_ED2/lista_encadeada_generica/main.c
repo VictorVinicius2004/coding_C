@@ -20,11 +20,7 @@ int main(){
 				break;
 			case 5:	lst->head->destroy(lst->dequeue(lst));
 				break;
-			case 6:
-				int indice;
-				printf("digite o índice do item a ser excluído\n");
-				scanf(" %d",&indice);
-				lst->head->destroy(lst->get(lst,indice));
+			case 6: interfaceGet(lst);
 				break;
 			case 7: lst->clear(lst);
 				break;
