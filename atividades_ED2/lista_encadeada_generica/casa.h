@@ -13,10 +13,6 @@ void print_Casa(Object object){
 	printf("Numero: %d\n\n",casa->numero);
 }
 
-void init_Casa(Object object){
-	object->print=print_Casa;
-}
-
 Object new_Casa(char* bairro,char* rua,int numero){
 	Casa* newCasa = pointer(Casa);
 	strcpy(newCasa->bairro,bairro);
@@ -25,7 +21,7 @@ Object new_Casa(char* bairro,char* rua,int numero){
 	
 	Object novo = new(Object);
 	novo->item=newCasa;
-	init_Casa(novo);
+	novo->print=print_Casa;
 	return  novo;
 }
 

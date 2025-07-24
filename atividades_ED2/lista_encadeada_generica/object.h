@@ -5,26 +5,35 @@
 #define pointer(type) malloc(sizeof(type))
 #define init(type) init_##type
 
+typedef enum{
+	CASA,
+	PESSOA,
+}TypeObject;
+
 typedef struct _Node{
 	void* item;
+	TypeObject type;
 	struct _Node* prev;
 	struct _Node* next;
-	void(*print)(struct _Node*);
+	void(*print)();
+	void(*destroy)();
 }_Node;
 
 typedef _Node* Object;
 
-typedef struct{
-	void* item;
-	Object obj;
-}ItemObject;
+void destroy(Object obj){
+	if(obj->item) free(obj->item);
+	if(obj) free(obj);
+}
 
 Object new_Object(){
 	Object novo = pointer(_Node);
 	novo->item=NULL;
 	novo->next=NULL;
 	novo->prev=NULL;
+	novo->destroy=destroy;
 	return novo;
 }
+
 
 #endif
