@@ -117,7 +117,7 @@ void clear(List lst){
 }
 
 void del(List lst,int indice){
-	lst->head->destroy(lst->get(lst,indice));
+	destroy(lst->get(lst,indice));
 }
 
 List new_List(){
