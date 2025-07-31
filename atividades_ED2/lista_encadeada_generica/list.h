@@ -23,7 +23,7 @@ void printTipo(TypeObject type){
 	switch(type){
 		case CASA: printf("Casa\n"); break;
 		case PESSOA: printf("Pessoa\n"); break;
-		case QUALQUER:
+		case QUALQUER: break;
 	}
 }
 
@@ -71,6 +71,7 @@ void enqueue(List lst,Object novo){
 
 Object pop(List lst){
 	if(!lst->head) return NULL;
+	
 	Object retornado =lst->head;
 	
 	lst->size-=1;

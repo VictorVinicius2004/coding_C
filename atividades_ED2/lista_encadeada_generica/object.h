@@ -23,8 +23,9 @@ typedef struct _Node{
 typedef _Node* Object;
 
 void destroy(Object obj){
+	if(!obj) return;
 	if(obj->item) free(obj->item);
-	if(obj) free(obj);
+	free(obj);
 }
 
 Object new_Object(){

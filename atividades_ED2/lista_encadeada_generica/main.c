@@ -20,13 +20,14 @@ int main(){
 	List lst = new(List);
 	//Pessoa : (nome,idade,altura,peso)
 	//Casa : (bairro,rua,numero)
+
 	while(1){
 		system("clear");
 		switch(interface()){
 			case 1: cadastroPessoa(lst); break;
 			case 2: cadastroCasa(lst); break;
 			case 3: interfaceListar(lst); break;
-			case 4: lst->head->destroy(lst->pop(lst)); break;
+			case 4: Object k = lst->pop(lst); if(k) k->destroy(k); break;
 			case 5: interfaceDelete(lst); break;
 			case 6: lst->clear(lst); break;
 			case 0: return 0;
