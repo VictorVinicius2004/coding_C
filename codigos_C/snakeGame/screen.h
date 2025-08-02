@@ -44,8 +44,8 @@ void printScreen(Snake* snake, ScreenPosition apple){
         else{
           printf("%s",CGREEN);
           switch(snakeInPosition(i,j,snake)){
-            case HEAD: printf("@"); break;
-            case TAIL: printf("O"); break;
+            case HEAD: printf("@%s",END_COLOR); break;
+            case TAIL: printf("O%s",END_COLOR); break;
             case NONE: printf("%s.",END_COLOR);
           }
         }
