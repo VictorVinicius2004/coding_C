@@ -40,16 +40,15 @@ void printScreen(Snake* snake, ScreenPosition apple){
         printf("#");
       else{
         if(i==apple.line && j==apple.colum)
-          printf("%sO",CRED);
+          printf("%sO%s",CRED,END_COLOR);
         else{
           printf("%s",CGREEN);
           switch(snakeInPosition(i,j,snake)){
             case HEAD: printf("@"); break;
             case TAIL: printf("O"); break;
-            case NONE: printf(" ");
+            case NONE: printf("%s.",END_COLOR);
           }
         }
-        printf("%s",END_COLOR);
       }
     }
     printf("\n");
