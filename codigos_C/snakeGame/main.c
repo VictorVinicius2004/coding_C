@@ -71,12 +71,16 @@ int main(){
       gameOver(snake);
       return 0;
     }
+    if(snake->size==COLUMS*LINES){
+      printf("I don't know how, but you won. CONGRADULATIONS!!\n");
+      return 0;
+    }
 
     if(snake->head->line==apple.line && snake->head->colum==apple.colum){
       growTail(snake);
       newApple(snake,&apple);
     }
     printf("WASD to move         q to quit\n");
-    wait_ms(150);
+    wait_ms(170);
   }
 }

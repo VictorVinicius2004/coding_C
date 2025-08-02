@@ -1,8 +1,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#define LINES 30
-#define COLUMS 40
+#define LINES 15
+#define COLUMS 20
 
 #define CRED "\033[31m"
 #define CGREEN "\033[32m"
