@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "common.h"
 #include "screen.h"
 #include "snake.h"
+
+#define DELAY 200
 
 #ifdef _WIN32
 #include <windows.h>
@@ -21,9 +24,31 @@ void wait_ms(long milliseconds){
 }
 #endif
 
-void gameOver(Snake* snake){
-  printf("==========GAME OVER==========\n");
+void gameOver(Snake* snake,ScreenPosition apple){
+  system(CLEAR);
+  printScreen(snake,apple,GAME_OVER);
+  printf("%s=======GAME OVER=======%s\n",CRED,END_COLOR);
   printf("SCORE: %d\n", snake->size-2);
+}
+
+void startMenu(int* delay){
+  printf("!!!!WELCOME TO THE SNAKE GAME!!!!\n");
+  printf("Controls: \nWASD to control the snake \nq to quit\n\n");
+  int difficulty;
+  printf("Choose the difficulty: 1-easy, 2-normal, 3-hard\n");
+  do{
+    scanf(" %d",&difficulty);
+  }while(difficulty<1 || difficulty>3);
+
+  switch(difficulty){
+    case 1: *delay = 250; break;
+    case 2: *delay = 200; break;
+    case 3: *delay = 150;
+  }
+
+  printf("Press any key to start\n");
+  setbuf(stdin,NULL);
+  getchar();
 }
 
 int main(){
@@ -31,11 +56,13 @@ int main(){
   Snake* snake = initSnake();
   char movement;
   ScreenPosition apple;
+  int delay;
 
+  startMenu(&delay);
   newApple(snake,&apple);
   while(1){
     system(CLEAR);
-    printScreen(snake,apple);
+    printScreen(snake,apple,IN_GAME);
     if(kbhit(&movement)){
       switch(movement){
         case 'w':
@@ -65,14 +92,17 @@ int main(){
     }
     else
       moveSnake(snake,NO_DIRECTION);
+    
+    if(snake->size==COLUMS*LINES){
+      system(CLEAR);
+      printScreen(snake,apple,PLAYER_WIN);
+      printf("I don't know how, but you won. CONGRADULATIONS!!\n");
+      return 0;
+    }
     if(snake->head->line<0 || snake->head->line==LINES ||
         snake->head->colum<0 || snake->head->colum==COLUMS ||
         snakeInPosition(snake->head->line, snake->head->colum, snake)==TAIL){
-      gameOver(snake);
-      return 0;
-    }
-    if(snake->size==COLUMS*LINES){
-      printf("I don't know how, but you won. CONGRADULATIONS!!\n");
+      gameOver(snake,apple);
       return 0;
     }
 
@@ -81,6 +111,6 @@ int main(){
       newApple(snake,&apple);
     }
     printf("WASD to move         q to quit\n");
-    wait_ms(170);
+    wait_ms(delay);
   }
 }

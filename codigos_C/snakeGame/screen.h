@@ -33,11 +33,14 @@ void newApple(Snake* snake, ScreenPosition* apple){
   *apple = freePositions[applePosition];
 }
 
-void printScreen(Snake* snake, ScreenPosition apple){
+void printScreen(Snake* snake, ScreenPosition apple, GameState gameStage){
+  const char* boardColor = (gameStage==IN_GAME)? "" :
+  (gameStage==GAME_OVER)? CRED : CGREEN;
+
   for(int i=-1; i<=LINES; i++){
     for(int j=-1; j<=COLUMS; j++){
       if(i<0 || j<0 || i==LINES || j==COLUMS)
-        printf("#");
+        printf("%s#%s",boardColor,END_COLOR);
       else{
         if(i==apple.line && j==apple.colum)
           printf("%sO%s",CRED,END_COLOR);

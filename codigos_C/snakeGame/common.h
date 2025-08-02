@@ -9,6 +9,12 @@
 #define END_COLOR "\033[0m"
 
 typedef enum{
+  IN_GAME,
+  GAME_OVER,
+  PLAYER_WIN
+}GameState;
+
+typedef enum{
   NONE,
   HEAD,
   TAIL,
