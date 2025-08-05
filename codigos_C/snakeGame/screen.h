@@ -1,7 +1,8 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include <gconio.h>
+#include <stdlib.h>
+#include "gconio.h"
 #include "common.h"
 
 SnakePart snakeInPosition(int line, int colum, Snake* snake){
@@ -39,9 +40,14 @@ void printScreen(Snake* snake, ScreenPosition apple, GameState gameStage){
 
   for(int i=-1; i<=LINES; i++){
     for(int j=-1; j<=COLUMS; j++){
-      if(i<0 || j<0 || i==LINES || j==COLUMS)
+      if((i<0 || i==LINES) && (j<0 || j==COLUMS))
+        printf("%s#%s",boardColor,END_COLOR);
+      else if(i<0 || i==LINES)
+        printf("%s##%s",boardColor,END_COLOR);
+      else if(j<0 || j==COLUMS)
         printf("%s#%s",boardColor,END_COLOR);
       else{
+        printf(" ");
         if(i==apple.line && j==apple.colum)
           printf("%sO%s",CRED,END_COLOR);
         else{
