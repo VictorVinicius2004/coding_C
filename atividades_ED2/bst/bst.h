@@ -64,16 +64,6 @@ void printTree(BSTree abb){
   _printTree(abb->raiz,0);
 }
 
-Object menorADireita(Object raiz){
-  if(!raiz->left) return raiz;
-  if(!raiz->left->left){
-    Object temp = raiz->left;
-    raiz->left = temp->right;
-    return temp;
-  }
-  return menorADireita(raiz->left);
-}
-
 Object _remove_no(Object raiz, int key,TypeObject type){
   if(!raiz) return NULL;
   Object toReturn = NULL;
