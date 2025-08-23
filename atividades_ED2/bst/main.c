@@ -4,6 +4,12 @@
 #include "bst.h"
 #include "aluno.h"
 
+#ifdef _WIN32
+  #define CLEAR "cls"
+#else
+  #define CLEAR "clear"
+#endif
+
 void waitEnter(){
   setbuf(stdin,NULL);
   getchar();
@@ -59,7 +65,7 @@ int interface(){
 int main(){
   BSTree abb = new(BSTree);
   while(1){
-    system("clear");
+    system(CLEAR);
     switch(interface()){
       case 1: cadastro_aluno(abb); break;
       case 2: printAluno(abb,getID()); break;
